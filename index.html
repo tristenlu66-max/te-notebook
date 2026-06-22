@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>te notebook</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/supabase/2.49.4/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&family=Inter:wght@300;400;500&display=swap');
 
@@ -604,7 +604,12 @@
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xeWRzbW1rdHFsaXR2Z2Zkc3p3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwNTkyNzgsImV4cCI6MjA5NzYzNTI3OH0.-cHviY0gjtZfyDbRTIZwITpbDfwL1wQiIS-t-xZ5AN4';
 
   // ---- SUPABASE CLIENT ----
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const { createClient } = window.supabase || {};
+  if (!createClient) {
+    document.getElementById('loginError').textContent = 'SDK 加载失败，刷新试试';
+    throw new Error('supabase SDK not loaded');
+  }
+  const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   // ---- THEME ----
   let currentTheme = localStorage.getItem('te-theme') || 'dark';
@@ -632,7 +637,7 @@
   let currentAuthor = null; // 'tristen' or 'evan'
 
   async function checkSession() {
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { session } } = await sb.auth.getSession();
     if (session) {
       currentUser = session.user;
       await resolveAuthor();
@@ -644,7 +649,7 @@
 
   async function resolveAuthor() {
     // 从 user_profiles 查 author_name
-    const { data, error } = await supabase
+    const { data, error } = await sb
       .from('user_profiles')
       .select('author_name')
       .eq('id', currentUser.id)
@@ -696,7 +701,7 @@
     loginBtn.textContent = '…';
     loginError.textContent = '';
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
     if (error) {
       loginError.textContent = '邮箱或密码不对';
       loginBtn.disabled = false;
@@ -712,7 +717,7 @@
 
   // ---- LOGOUT ----
   document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await supabase.auth.signOut();
+    await sb.auth.signOut();
     currentUser = null;
     currentAuthor = null;
     showLogin();
@@ -729,7 +734,7 @@
     const list = document.getElementById('notesList');
     list.innerHTML = '<div class="loading">加载中…</div>';
     try {
-      const { data, error } = await supabase
+      const { data, error } = await sb
         .from('notes')
         .select('*')
         .order('created_at', { ascending: false })
@@ -837,7 +842,7 @@
     sendBtn.disabled = true;
     sendBtn.textContent = '…';
     try {
-      const { error } = await supabase
+      const { error } = await sb
         .from('notes')
         .insert({
           author: currentAuthor,
