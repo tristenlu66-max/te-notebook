@@ -348,6 +348,235 @@
     word-break: break-word;
   }
 
+  /* notes count */
+  .notes-count {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: auto;
+    white-space: nowrap;
+    padding: 5px 0;
+    flex-shrink: 0;
+  }
+
+  /* calendar toggle */
+  .calendar-toggle-row {
+    display: flex;
+    margin-bottom: 16px;
+  }
+
+  .calendar-toggle-btn {
+    font-size: 12px;
+    color: var(--text-muted);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .calendar-toggle-btn:active {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+  }
+
+  .calendar-toggle-btn.open {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+  }
+
+  /* calendar */
+  .calendar-wrapper {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, margin 0.35s ease, opacity 0.25s ease;
+    margin-bottom: 0;
+    opacity: 0;
+  }
+
+  .calendar-wrapper.open {
+    max-height: 320px;
+    margin-bottom: 20px;
+    opacity: 1;
+  }
+
+  .calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+
+  .cal-nav-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 8px;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+
+  .cal-nav-btn:active { color: var(--text-primary); }
+
+  .cal-month-label {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+
+  .cal-head {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: center;
+    padding: 4px 0;
+    letter-spacing: 0.04em;
+  }
+
+  .cal-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-radius: 8px;
+    position: relative;
+    cursor: default;
+    transition: background 0.15s;
+  }
+
+  .cal-day.empty { visibility: hidden; }
+
+  .cal-day.has-notes {
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+
+  .cal-day.has-notes:active {
+    background: var(--accent-tristen-dim);
+  }
+
+  .cal-day.has-notes::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent-tristen);
+  }
+
+  .cal-day.has-both::after {
+    width: 10px;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent-tristen) 50%, var(--accent-evan) 50%);
+  }
+
+  .cal-day.today {
+    background: var(--surface-hover);
+    font-weight: 500;
+  }
+
+  /* date separator in notes list */
+  .date-separator {
+    padding: 20px 0 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border);
+    transition: border-color 0.3s;
+  }
+
+  .date-separator:first-child { padding-top: 0; }
+
+  /* edit button */
+  .note-edit-btn {
+    font-size: 11px;
+    color: var(--text-muted);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1px 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-right: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  .note-edit-btn:active {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+  }
+
+  /* inline edit mode */
+  .note-edit-area {
+    width: 100%;
+    min-height: 80px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-primary);
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s, background 0.3s, color 0.3s;
+  }
+
+  .note-edit-area:focus { border-color: var(--text-secondary); }
+
+  .note-edit-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    justify-content: flex-end;
+  }
+
+  .note-edit-save, .note-edit-cancel {
+    font-size: 12px;
+    padding: 4px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+
+  .note-edit-save {
+    background: var(--accent-tristen);
+    color: #fff;
+    border-color: var(--accent-tristen);
+  }
+
+  [data-theme="dark"] .note-edit-save { color: var(--bg); }
+
+  .note-edit-cancel {
+    background: none;
+    color: var(--text-muted);
+  }
+
+  .note-edit-cancel:active {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+  }
+
   /* compose area */
   .compose-overlay {
     display: none;
@@ -570,6 +799,20 @@
       <button class="sector-tag" data-sector="letter">留言</button>
       <button class="sector-tag" data-sector="diary">日记</button>
       <button class="sector-tag" data-sector="intimate">亲密</button>
+      <span class="notes-count" id="notesCount"></span>
+    </div>
+
+    <div class="calendar-toggle-row">
+      <button class="calendar-toggle-btn" id="calendarToggle">🗓 月历</button>
+    </div>
+
+    <div class="calendar-wrapper" id="calendarWrapper">
+      <div class="calendar-nav">
+        <button class="cal-nav-btn" id="calPrev">‹</button>
+        <span class="cal-month-label" id="calMonthLabel"></span>
+        <button class="cal-nav-btn" id="calNext">›</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
     </div>
 
     <div class="notes-list" id="notesList">
@@ -634,7 +877,7 @@
 
   // ---- AUTH STATE ----
   let currentUser = null;
-  let currentAuthor = null; // 'tristen' or 'evan'
+  let currentAuthor = null;
 
   async function checkSession() {
     const { data: { session } } = await sb.auth.getSession();
@@ -648,8 +891,7 @@
   }
 
   async function resolveAuthor() {
-    // 从 user_profiles 查 author_name
-    const { data, error } = await sb
+    const { data } = await sb
       .from('user_profiles')
       .select('author_name')
       .eq('id', currentUser.id)
@@ -657,7 +899,6 @@
     if (data) {
       currentAuthor = data.author_name;
     } else {
-      // fallback: 用 display_name
       const name = (currentUser.user_metadata?.display_name || '').toLowerCase();
       currentAuthor = name === 'tristen' ? 'tristen' : 'evan';
     }
@@ -681,22 +922,13 @@
   const loginError = document.getElementById('loginError');
 
   loginBtn.addEventListener('click', doLogin);
-
-  // Enter 键登录
-  loginPassword.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') doLogin();
-  });
-  loginEmail.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') loginPassword.focus();
-  });
+  loginPassword.addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
+  loginEmail.addEventListener('keydown', (e) => { if (e.key === 'Enter') loginPassword.focus(); });
 
   async function doLogin() {
     const email = loginEmail.value.trim();
     const password = loginPassword.value;
-    if (!email || !password) {
-      loginError.textContent = '填完再说';
-      return;
-    }
+    if (!email || !password) { loginError.textContent = '填完再说'; return; }
     loginBtn.disabled = true;
     loginBtn.textContent = '…';
     loginError.textContent = '';
@@ -728,6 +960,7 @@
   let allNotes = [];
   let filterAuthor = 'all';
   let filterSector = 'all';
+  const EDIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
 
   // ---- LOAD ----
   async function loadNotes() {
@@ -737,8 +970,7 @@
       const { data, error } = await sb
         .from('notes')
         .select('*')
-        .order('created_at', { ascending: false })
-        .limit(100);
+        .order('created_at', { ascending: false });
       if (error) throw error;
       allNotes = data;
       renderNotes();
@@ -747,36 +979,125 @@
     }
   }
 
+  // ---- RENDER ----
   function renderNotes() {
     const list = document.getElementById('notesList');
     let filtered = allNotes;
     if (filterAuthor !== 'all') filtered = filtered.filter(n => n.author === filterAuthor);
     if (filterSector !== 'all') filtered = filtered.filter(n => n.sector === filterSector);
 
+    // update count
+    document.getElementById('notesCount').textContent = `${filtered.length} 则`;
+
     if (filtered.length === 0) {
       list.innerHTML = '<div class="empty-state">还没有内容<br>写第一条吧</div>';
       return;
     }
 
-    list.innerHTML = filtered.map(n => {
+    const now = Date.now();
+    const sectorMap = { memo: '碎语', letter: '留言', diary: '日记', intimate: '亲密' };
+    const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+    let lastDateKey = '';
+    let html = '';
+
+    for (const n of filtered) {
       const d = new Date(n.created_at);
-      const timeStr = `${d.getMonth()+1}/${d.getDate()} ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
-      const sectorMap = { memo: '碎语', letter: '留言', diary: '日记', intimate: '亲密' };
-      return `
-        <div class="note-card">
+      const dateKey = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+      const timeStr = `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+
+      // date separator
+      if (dateKey !== lastDateKey) {
+        const dateLabel = `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 · 周${weekdays[d.getDay()]}`;
+        html += `<div class="date-separator" id="date-${d.getFullYear()}-${(d.getMonth()+1).toString().padStart(2,'0')}-${d.getDate().toString().padStart(2,'0')}">${dateLabel}</div>`;
+        lastDateKey = dateKey;
+      }
+
+      // edit button: only show for own notes within 10 min
+      const canEdit = n.author === currentAuthor && (now - d.getTime()) < EDIT_WINDOW_MS;
+      const editBtnHtml = canEdit ? `<button class="note-edit-btn" data-id="${n.id}" onclick="startEdit(this)">改</button>` : '';
+
+      html += `
+        <div class="note-card" data-note-id="${n.id}">
           <div class="note-meta">
             <span class="note-author ${n.author}">${n.author === 'tristen' ? 'Tristen' : 'Evan'}</span>
             <span class="note-sector">${sectorMap[n.sector] || n.sector}</span>
-            <span class="note-time">${timeStr}</span>
+            <span class="note-time">${editBtnHtml}${timeStr}</span>
           </div>
           <div class="note-content">${escHtml(n.content)}</div>
         </div>
       `;
-    }).join('');
+    }
+
+    list.innerHTML = html;
   }
 
   function escHtml(s) {
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ---- INLINE EDIT ----
+  function startEdit(btn) {
+    const noteId = btn.dataset.id;
+    const card = btn.closest('.note-card');
+    const contentEl = card.querySelector('.note-content');
+    const original = allNotes.find(n => n.id === noteId);
+    if (!original) return;
+
+    contentEl.innerHTML = `
+      <textarea class="note-edit-area">${escHtml(original.content)}</textarea>
+      <div class="note-edit-actions">
+        <button class="note-edit-cancel" onclick="cancelEdit('${noteId}')">算了</button>
+        <button class="note-edit-save" onclick="saveEdit('${noteId}')">改好了</button>
+      </div>
+    `;
+    const ta = contentEl.querySelector('.note-edit-area');
+    ta.focus();
+    ta.setSelectionRange(ta.value.length, ta.value.length);
+
+    // hide edit button while editing
+    btn.style.display = 'none';
+  }
+
+  function cancelEdit(noteId) {
+    const original = allNotes.find(n => n.id === noteId);
+    if (!original) return;
+    const card = document.querySelector(`[data-note-id="${noteId}"]`);
+    const contentEl = card.querySelector('.note-content');
+    contentEl.innerHTML = escHtml(original.content);
+
+    // restore edit button if still within window
+    const btn = card.querySelector('.note-edit-btn');
+    if (btn) btn.style.display = '';
+  }
+
+  async function saveEdit(noteId) {
+    const card = document.querySelector(`[data-note-id="${noteId}"]`);
+    const ta = card.querySelector('.note-edit-area');
+    const newContent = ta.value.trim();
+    if (!newContent) { showToast('不能为空'); return; }
+
+    const saveBtn = card.querySelector('.note-edit-save');
+    saveBtn.textContent = '…';
+    saveBtn.disabled = true;
+
+    try {
+      const { error } = await sb
+        .from('notes')
+        .update({ content: newContent })
+        .eq('id', noteId);
+      if (error) throw error;
+
+      // update local data
+      const note = allNotes.find(n => n.id === noteId);
+      if (note) note.content = newContent;
+
+      showToast('已修改');
+      renderNotes();
+    } catch (e) {
+      showToast('修改失败：' + e.message);
+      saveBtn.textContent = '改好了';
+      saveBtn.disabled = false;
+    }
   }
 
   // ---- TABS ----
@@ -797,6 +1118,105 @@
       renderNotes();
     });
   });
+
+  // ---- CALENDAR ----
+  let calYear, calMonth;
+  const calWrapper = document.getElementById('calendarWrapper');
+  const calToggle = document.getElementById('calendarToggle');
+
+  calToggle.addEventListener('click', () => {
+    const isOpen = calWrapper.classList.toggle('open');
+    calToggle.classList.toggle('open', isOpen);
+    if (isOpen && !calYear) {
+      const now = new Date();
+      calYear = now.getFullYear();
+      calMonth = now.getMonth();
+      renderCalendar();
+    }
+  });
+
+  document.getElementById('calPrev').addEventListener('click', () => {
+    calMonth--;
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
+  });
+
+  document.getElementById('calNext').addEventListener('click', () => {
+    calMonth++;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalendar();
+  });
+
+  function renderCalendar() {
+    const grid = document.getElementById('calendarGrid');
+    const label = document.getElementById('calMonthLabel');
+
+    label.textContent = `${calYear}年${calMonth + 1}月`;
+
+    // build a map: dateStr -> set of authors
+    const dateAuthors = {};
+    for (const n of allNotes) {
+      const d = new Date(n.created_at);
+      if (d.getFullYear() === calYear && d.getMonth() === calMonth) {
+        const key = d.getDate();
+        if (!dateAuthors[key]) dateAuthors[key] = new Set();
+        dateAuthors[key].add(n.author);
+      }
+    }
+
+    const today = new Date();
+    const isThisMonth = today.getFullYear() === calYear && today.getMonth() === calMonth;
+
+    // first day of month and total days
+    const firstDow = new Date(calYear, calMonth, 1).getDay();
+    const totalDays = new Date(calYear, calMonth + 1, 0).getDate();
+
+    const heads = ['日','一','二','三','四','五','六'];
+    let html = heads.map(h => `<div class="cal-head">${h}</div>`).join('');
+
+    // empty cells before first day
+    for (let i = 0; i < firstDow; i++) {
+      html += '<div class="cal-day empty"></div>';
+    }
+
+    for (let day = 1; day <= totalDays; day++) {
+      const authors = dateAuthors[day];
+      const hasNotes = !!authors;
+      const hasBoth = hasNotes && authors.size > 1;
+      const isToday = isThisMonth && day === today.getDate();
+
+      let cls = 'cal-day';
+      if (!hasNotes) cls += '';
+      else if (hasBoth) cls += ' has-notes has-both';
+      else cls += ' has-notes';
+      if (isToday) cls += ' today';
+
+      const dayPad = day.toString().padStart(2, '0');
+      const monthPad = (calMonth + 1).toString().padStart(2, '0');
+      const dateId = `date-${calYear}-${monthPad}-${dayPad}`;
+
+      if (hasNotes) {
+        html += `<div class="${cls}" onclick="jumpToDate('${dateId}')">${day}</div>`;
+      } else {
+        html += `<div class="${cls}">${day}</div>`;
+      }
+    }
+
+    grid.innerHTML = html;
+  }
+
+  function jumpToDate(dateId) {
+    const el = document.getElementById(dateId);
+    if (el) {
+      // close calendar
+      calWrapper.classList.remove('open');
+      calToggle.classList.remove('open');
+      // scroll to date
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      showToast('当前筛选下没有这天的笔记');
+    }
+  }
 
   // ---- COMPOSE ----
   const fab = document.getElementById('fabBtn');
