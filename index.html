@@ -782,6 +782,7 @@
       <h1>te notebook</h1>
       <p>属于我们的地方</p>
       <div class="header-actions">
+        <button class="logout-btn" id="backupBtn">备份</button>
         <button class="logout-btn" id="logoutBtn">登出</button>
         <button class="header-btn" id="themeToggle" title="切换主题">☽</button>
       </div>
@@ -1279,6 +1280,40 @@
       sendBtn.disabled = false;
     }
     sendBtn.textContent = '落笔';
+  });
+
+  // ---- BACKUP ----
+  document.getElementById('backupBtn').addEventListener('click', () => {
+    if (allNotes.length === 0) {
+      showToast('没有可备份的内容');
+      return;
+    }
+
+    const now = new Date();
+    const stamp = `${now.getFullYear()}${(now.getMonth()+1).toString().padStart(2,'0')}${now.getDate().toString().padStart(2,'0')}_${now.getHours().toString().padStart(2,'0')}${now.getMinutes().toString().padStart(2,'0')}`;
+
+    const backup = {
+      exported_at: now.toISOString(),
+      total: allNotes.length,
+      notes: allNotes.map(n => ({
+        id: n.id,
+        author: n.author,
+        sector: n.sector,
+        content: n.content,
+        created_at: n.created_at,
+      })),
+    };
+
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `te-notebook-backup-${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast(`已备份 ${allNotes.length} 则`);
   });
 
   // ---- TOAST ----
